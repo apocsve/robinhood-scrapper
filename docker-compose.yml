@@ -1,0 +1,112 @@
+version: "3"
+
+networks:
+  robinhood-scrapper-network:
+
+volumes:  
+  mongodb:
+
+services:
+
+  robinhood-scrapper-mysql:
+    image: mysql:5.7
+    container_name: robinhood-scrapper-mysql
+    expose:
+      - "3306"
+    ports:
+      - "${MYSQL_IP}:${MYSQL_PORT}:3306"
+    networks:
+      - robinhood-scrapper-network
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_NAME}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+
+  robinhood-scrapper-mongo:
+    user: root
+    image: mongo:3.6
+    container_name: robinhood-scrapper-mongo
+    env_file:
+      - .env
+    expose:
+      - "27017"
+    ports:
+      - "${MONGO_IP}:${MONGO_PORT}:27017"
+    volumes:
+      - mongodb:/data
+    networks:
+      - robinhood-scrapper-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+
+  robinhood-scrapper-redis:
+    user: root
+    image: redis:5
+    container_name: robinhood-scrapper-redis
+    env_file:
+      - .env
+    expose:
+      - "6379"
+    ports:
+      - "${REDIS_IP}:${REDIS_PORT}:6379"
+    networks:
+      - robinhood-scrapper-network
+
+  robinhood-scrapper-rabbitmq:
+    user: root
+    image: rabbitmq:3-management
+    container_name: robinhood-scrapper-rabbitmq
+    env_file:
+      - .env
+    expose:
+      - "5672"
+      - "15672"
+    ports:
+      - "${RABBITMQ_IP}:${RABBITMQ_PORT_1}:5672"
+      - "${RABBITMQ_IP}:${RABBITMQ_PORT_2}:15672"
+    volumes:
+      - ./project/logs:/app:rw 
+    networks:
+      - robinhood-scrapper-network
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_COOKIE}
+      RABBITMQ_LOGS: ${RABBITMQ_LOGS}
+
+  robinhood-scrapper-python:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: robinhood-scrapper-python
+    env_file:
+      - .env
+    depends_on:
+      - robinhood-scrapper-rabbitmq
+      - robinhood-scrapper-mongo
+      - robinhood-scrapper-redis
+    environment:
+      MONGO_HOST: ${MONGO_HOST}
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT_1}
+      ROBINHOOD_USERNAME: ${ROBINHOOD_USERNAME}
+      ROBINHOOD_PASSWORD: ${ROBINHOOD_PASSWORD}
+      MFA_SECRET: ${MFA_SECRET}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_NAME: ${MYSQL_NAME}
+    links:
+      - robinhood-scrapper-rabbitmq
+      - robinhood-scrapper-mongo
+      - robinhood-scrapper-redis
+    volumes:
+      - ./project/scraper:/app:rw 
+      - ./project/python_common:/app/src/python_common:rw 
+    networks:
+      - robinhood-scrapper-network
