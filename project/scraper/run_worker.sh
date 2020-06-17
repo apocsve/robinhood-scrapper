@@ -1,0 +1,67 @@
+#!/bin/bash
+set -e
+
+while ! nc -z erik-mongo 27017 ;
+do
+    echo "############# Waiting for erik-mongo to start.";
+    sleep 3;
+done;
+
+while ! nc -z erik-redis 6379 ;
+do
+    echo "############# Waiting for erik-redis to start.";
+    sleep 3;
+done;
+
+while ! nc -z erik-rabbitmq 5672 ;
+do
+    echo "############# Waiting for erik-rabbitmq to start.";
+    sleep 3;
+done;
+
+while ! nc -z erik-mysql 3306 ;
+do
+    echo "############# Waiting for erik-mysql to start.";
+    sleep 3;
+done;
+
+pip install -r requirements.txt
+
+export MONGO_HOST=${MONGO_HOST:-localhost}
+export MYSQL_HOST=${MYSQL_HOST:-localhost}
+export REDIS_HOST=${REDIS_HOST:-localhost}
+export RABBITMQ_HOST=${RABBITMQ_HOST:-localhost}
+export RABBITMQ_PORT=${RABBITMQ_PORT:-5672}
+export PYTHONPATH="${PWD}/../"
+export ROBINHOOD_USERNAME=${ROBINHOOD_USERNAME}
+export ROBINHOOD_PASSWORD=${ROBINHOOD_PASSWORD}
+export MFA_SECRET=${MFA_SECRET}
+
+
+#python src/scrape_instruments.py --rabbitmq_host=$RABBITMQ_HOST --rabbitmq_port=$RABBITMQ_PORT --scrape-fundamentals;
+#python src/worker.py --mode popularity --rabbitmq_host=$RABBITMQ_HOST --rabbitmq_port=$RABBITMQ_PORT;
+#python src/worker.py --mode quote --rabbitmq_host=$RABBITMQ_HOST --rabbitmq_port=$RABBITMQ_PORT;
+#python src/worker.py --mode fundamentals --rabbitmq_host=$RABBITMQ_HOST --rabbitmq_port=$RABBITMQ_PORT;
+
+#until python src/worker.py \
+#	--mode popularity \
+#	--rabbitmq_host=$RABBITMQ_HOST \
+#	--rabbitmq_port=$RABBITMQ_PORT; do
+#	echo "Popularities scraper exited with code $?.  Restarting in 10 seconds..."
+#	sleep 10
+#done
+
+#until python src/worker.py \
+#	--mode fundamentals \
+#	--rabbitmq_host=$RABBITMQ_HOST \
+#	--rabbitmq_port=$RABBITMQ_PORT; do
+#	echo "Popularities scraper exited with code $?.  Restarting in 10 seconds..."
+#	sleep 10
+#done
+
+until ! nc -z erik-rabbitmq 5672;
+do
+	echo "running";
+	sleep 60
+done
+

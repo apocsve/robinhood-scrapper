@@ -1,0 +1,10 @@
+click~=5.0
+pika~=1.1
+pymongo~=3.6.1
+redis~=2.10.6
+python-dateutil~=2.7.5
+pymysql
+./Robinhood
+
+# Dev Deps
+pytest~=2.9.0
