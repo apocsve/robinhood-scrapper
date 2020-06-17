@@ -1,27 +1,27 @@
 #!/bin/bash
 set -e
 
-while ! nc -z erik-mongo 27017 ;
+while ! nc -z robinhood-scrapper--mongo 27017 ;
 do
-    echo "############# Waiting for erik-mongo to start.";
+    echo "############# Waiting for robinhood-scrapper--mongo to start.";
     sleep 3;
 done;
 
-while ! nc -z erik-redis 6379 ;
+while ! nc -z robinhood-scrapper--redis 6379 ;
 do
-    echo "############# Waiting for erik-redis to start.";
+    echo "############# Waiting for robinhood-scrapper--redis to start.";
     sleep 3;
 done;
 
-while ! nc -z erik-rabbitmq 5672 ;
+while ! nc -z robinhood-scrapper--rabbitmq 5672 ;
 do
-    echo "############# Waiting for erik-rabbitmq to start.";
+    echo "############# Waiting for robinhood-scrapper--rabbitmq to start.";
     sleep 3;
 done;
 
-while ! nc -z erik-mysql 3306 ;
+while ! nc -z robinhood-scrapper--mysql 3306 ;
 do
-    echo "############# Waiting for erik-mysql to start.";
+    echo "############# Waiting for robinhood-scrapper--mysql to start.";
     sleep 3;
 done;
 
@@ -59,7 +59,7 @@ export MFA_SECRET=${MFA_SECRET}
 #	sleep 10
 #done
 
-until ! nc -z erik-rabbitmq 5672;
+until ! nc -z robinhood-scrapper--rabbitmq 5672;
 do
 	echo "running";
 	sleep 60
