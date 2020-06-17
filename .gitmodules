@@ -1,0 +1,3 @@
+[submodule "project/scraper/Robinhood"]
+	path = project/scraper/Robinhood
+	url = https://github.com/Ameobea/Robinhood/tree/bfa51c356e2741e53647fea4c376d6b9a602603b
