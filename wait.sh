@@ -18,9 +18,3 @@ do
     echo "############# Waiting for robinhood-scrapper-rabbitmq to start.";
     sleep 3;
 done;
-
-while ! nc -z robinhood-scrapper-mysql 3306 ;
-do
-    echo "############# Waiting for robinhood-scrapper-mysql to start.";
-    sleep 3;
-done;
