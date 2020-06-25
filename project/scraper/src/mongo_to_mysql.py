@@ -14,8 +14,22 @@ class Export:
 
     def __init__(self):
 
-        self.mysql_client = pymysql.connect(host=environ.get("MYSQL_HOST"), user=environ.get("MYSQL_USER"),
-                                            password=environ.get("MYSQL_PASSWORD"), charset='utf8')
+        ssl_info = {
+            'ssl':{
+                'ca': environ.get("MYSQL_SSL_CA"),
+                'key': environ.get("MYSQL_SSL_KEY"),
+                'cert': environ.get("MYSQL_SSL_CERT")
+            }
+        }
+
+        self.mysql_client = pymysql.connect(
+            host=environ.get("MYSQL_HOST"),
+            user=environ.get("MYSQL_USER"),
+            password=environ.get("MYSQL_PASSWORD"), 
+            charset='utf8',
+            ssl=ssl_info
+
+        )
         self.mysql_database = environ.get("MYSQL_NAME")
         self.mysql_cursor = self.mysql_client.cursor()
         self.db = get_db()

@@ -97,5 +97,6 @@ services:
     volumes:
       - ./project/scraper:/app:rw 
       - ./project/python_common:/app/src/python_common:rw 
+      - ./project/pem:/app/pem:rw
     networks:
       - robinhood-scrapper-network
