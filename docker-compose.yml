@@ -8,6 +8,19 @@ volumes:
 
 services:
 
+  robinhood-scrapper-dbface:
+    user: root
+    image: dbface/dbface-docker
+    container_name: robinhood-scrapper-dbface
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    networks:
+      - robinhood-scrapper-network
+    env_file:
+      - .env
+
   robinhood-scrapper-mongo:
     user: root
     image: mongo:3.6
