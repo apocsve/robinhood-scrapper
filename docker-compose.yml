@@ -8,6 +8,19 @@ volumes:
 
 services:
 
+  robinhood-scrapper-dbface:
+    user: root
+    image: dbface/dbface-docker
+    container_name: robinhood-scrapper-dbface
+    expose:
+      - "80"
+    ports:
+      - "${DBFACE_IP}:${DBFACE_PORT}:80"
+    networks:
+      - robinhood-scrapper-network
+    env_file:
+      - .env
+
   robinhood-scrapper-mysql:
     image: mysql:5.7
     container_name: robinhood-scrapper-mysql
