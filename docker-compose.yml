@@ -23,7 +23,7 @@ services:
 
   robinhood-scrapper-mongo:
     user: root
-    image: mongo:3.6
+    image: mongo:3.2
     container_name: robinhood-scrapper-mongo
     env_file:
       - .env
