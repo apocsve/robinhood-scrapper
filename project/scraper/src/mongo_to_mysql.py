@@ -15,11 +15,9 @@ class Export:
     def __init__(self):
 
         ssl_info = {
-            'ssl':{
-                'ca': environ.get("MYSQL_SSL_CA"),
-                'key': environ.get("MYSQL_SSL_KEY"),
-                'cert': environ.get("MYSQL_SSL_CERT")
-            }
+            'ca': environ.get("MYSQL_SSL_CA"),
+            'key': environ.get("MYSQL_SSL_KEY"),
+            'cert': environ.get("MYSQL_SSL_CERT")
         }
 
         self.mysql_client = pymysql.connect(
