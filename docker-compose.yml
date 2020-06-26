@@ -8,6 +8,17 @@ volumes:
 
 services:
 
+  robinhood-scrapper-metabase:
+    user: root
+    image: metabase/metabase
+      container_name: robinhood-scrapper-metabase
+    expose:
+      - "3000"
+    ports:
+      - "8080:3000"
+    networks:
+      - robinhood-scrapper-network
+
   robinhood-scrapper-dbface:
     user: root
     image: dbface/dbface-docker
