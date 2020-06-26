@@ -11,11 +11,11 @@ services:
   robinhood-scrapper-metabase:
     user: root
     image: metabase/metabase
-      container_name: robinhood-scrapper-metabase
+    container_name: robinhood-scrapper-metabase
     expose:
       - "3000"
     ports:
-      - "8080:3000"
+      - "80:3000"
     networks:
       - robinhood-scrapper-network
 
@@ -25,8 +25,6 @@ services:
     container_name: robinhood-scrapper-dbface
     expose:
       - "80"
-    ports:
-      - "80:80"
     networks:
       - robinhood-scrapper-network
     env_file:
