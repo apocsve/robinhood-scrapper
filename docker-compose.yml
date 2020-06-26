@@ -57,8 +57,6 @@ services:
     expose:
       - "5672"
       - "15672"
-    ports:
-      - "15672:15672"
     networks:
       - robinhood-scrapper-network
     environment:
