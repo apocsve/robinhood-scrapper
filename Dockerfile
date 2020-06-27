@@ -27,6 +27,7 @@ COPY ./project/scripts/run_worker_popularity.sh /usr/local/bin/run_worker_popula
 COPY ./project/scripts/run_worker_quote.sh /usr/local/bin/run_worker_quote.sh
 COPY ./project/scripts/run_worker_fundamentals.sh /usr/local/bin/run_worker_fundamentals.sh
 COPY ./project/scripts/run_migration.sh /usr/local/bin/run_migration.sh
+COPY ./project/scripts/run_cleaner.sh /usr/local/bin/run_cleaner.sh
 
 RUN mkdir /app
 
