@@ -79,9 +79,9 @@ services:
     env_file:
       - .env
     expose:
-      - "9001"
+      - "9005"
     ports:
-      - "9001:9001"
+      - "9005:9005"
     depends_on:
       - robinhood-scrapper-rabbitmq
       - robinhood-scrapper-mongo
