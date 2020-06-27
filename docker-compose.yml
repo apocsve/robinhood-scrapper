@@ -19,17 +19,6 @@ services:
     networks:
       - robinhood-scrapper-network
 
-  robinhood-scrapper-dbface:
-    user: root
-    image: dbface/dbface-docker
-    container_name: robinhood-scrapper-dbface
-    expose:
-      - "80"
-    networks:
-      - robinhood-scrapper-network
-    env_file:
-      - .env
-
   robinhood-scrapper-mongo:
     user: root
     image: mongo:3.2
@@ -54,6 +43,16 @@ services:
       - .env
     expose:
       - "6379"
+    networks:
+      - robinhood-scrapper-network
+
+  robinhood-scrapper-cloudsql:
+    user: root
+    image: gcr.io/cloudsql-docker/gce-proxy:1.16
+    container_name: robinhood-scrapper-cloudsql
+    expose:
+      - "3306"
+    command: /cloud_sql_proxy -instances=esoteric-parsec-280817:us-east1:robinhood-scrapper-mysql=tcp:0.0.0.0:3306
     networks:
       - robinhood-scrapper-network
 
