@@ -36,7 +36,7 @@ def store_popularities(popularity_map: dict, collection: pymongo.collection.Coll
     """ Creates an entry in the database for the popularity. """
 
     timestamp = datetime.datetime.utcnow()
-    pprint(popularity_map)
+
     mapped_documents = map(
         lambda key: {
             "timestamp": timestamp,
@@ -63,8 +63,6 @@ def store_quotes(quotes: list, collection: pymongo.collection.Collection):
 
     def format_quote(quote: dict) -> dict:
         return {"symbol": quote["symbol"], "bid": quote["bid_price"], "ask": quote["ask_price"]}
-
-    pprint(list(map(format_quote, quotes)))
 
     # Update the index collection with up-to-date tradability info
     timestamp = datetime.datetime.utcnow()
@@ -101,7 +99,6 @@ def store_fundamentals(data, collection: pymongo.collection.Collection):
         if not datum:
             continue
 
-        print(datum)
         instrument_id = parse_instrument_url(datum["instrument"])
         doc = {**omit("instrument", datum), "instrument_id": instrument_id}
 
