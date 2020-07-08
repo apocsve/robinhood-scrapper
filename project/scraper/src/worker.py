@@ -351,6 +351,8 @@ def cli(mode: str, rabbitmq_host: str, rabbitmq_port: str, worker_request_cooldo
         rabbitmq_channel.stop_consuming()
         rabbitmq_connection.close()
 
+    print(" [x] work finished")
+
 
 if __name__ == "__main__":
     cli()  # pylint: disable=E1120
