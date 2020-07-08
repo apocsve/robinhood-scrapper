@@ -2,6 +2,7 @@ import pymysql
 from os import environ, path, makedirs
 from db import get_db
 from sql import create_database_sql, create_table_sql, insert_one_sql, use_database, select_one_sql, show_databases, show_tables
+from mongo_clear import Clear
 
 
 class Export:
@@ -214,4 +215,6 @@ class Export:
 
 if __name__ == "__main__":
     e = Export()
+    c = Clear()
     e.main()
+    c.main()
