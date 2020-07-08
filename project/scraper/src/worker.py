@@ -330,7 +330,7 @@ def cli(mode: str, rabbitmq_host: str, rabbitmq_port: str, worker_request_cooldo
     rabbitmq_channel.queue_declare(queue=channel_name)
 
     def handle_work(_channel, _method, _properties, body):
-        print(" [*] Received %r" % body)
+        print(" [*] Received ")
         work_cb(
             body.decode("utf-8"),
             collection,
@@ -342,7 +342,6 @@ def cli(mode: str, rabbitmq_host: str, rabbitmq_port: str, worker_request_cooldo
 
     rabbitmq_channel.basic_consume(channel_name, handle_work)
 
-    print(" [*] running  %r" % work_cb)
     print(" [*] collection_name %r" % collection_name)
     print(" [*] channel_name %r" % channel_name)
 
